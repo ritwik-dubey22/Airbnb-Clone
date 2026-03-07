@@ -1,0 +1,100 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderLUst</title>
+</head> -->
+
+<!-- using the ejs-mate -->
+<% layout ('/layouts/boilerplate') %>
+
+
+    <body>
+        <br>
+        <div class="row">
+            <div class="col-8 offset-2">
+
+                <h1>Create New Listing</h1>
+                <br><br>
+                <!-- action me listingsrkhne se ham wapis listing wle route par aa jyenge -->
+                <form method="POST" action="/listings" class="needs-validation" novalidate enctype="multipart/form-data">
+
+                    <div class="mb-3"> <label for="title" class="form-label">Title
+                </label>
+
+                        <input name="listing[title]" placeholder="enter title" type="text" class="form-control" required>
+                        <div class="valid-feedback">Title looks good...</div>
+                    </div>
+
+                    <br> <br>
+
+                    <div class="mb-3"><label for="description" class="description" class="from-label">enter description
+                </label>
+
+                        <textarea name="listing[description]" placeholder="enter description" type="text" class="form-control" required> </textarea>
+
+
+                    </div>
+
+
+                    <br> <br>
+
+
+                    <div class="mb-3"> <label for="image" class="form-label">Upload listings image
+                </label>
+
+                        <input required name="listing[image]" placeholder="enter image url" type="file" class="form-control" required></div>
+
+
+                    <br> <br>
+                    <div class="row">
+                        <div class="mb-3 col-md-3"> <label for="price" class="form-label">enter price
+                </label>
+
+                            <input required name="listing[price]" placeholder="enter price" class="form-control">
+                            <div class="invalid-feedback">enter a valid price </div>
+                        </div>
+
+                        <br> <br>
+                        <div class="mb-3 col-8">
+                            <label for="country" class="form-label">enter country
+                </label>
+
+                            <input required class="form-control" name="listing[country]" placeholder="india" type="text">
+                            <div class="invalid-feedback">enter a valid country name</div>
+                        </div>
+                    </div> <br> <br>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">enter location/address
+                </label>
+
+                        <input required class="form-control" name="listing[location]" placeholder="enter location/address" type="text">
+                        <div class="invalid-feedback">enter a valid location</div>
+
+                    </div><br><br>
+
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select name="listing[category]" class="form-control" required>
+    <option value="">Select Category</option>
+    <option value="trending">Trending</option>
+    <option value="rooms">Rooms</option>
+    <option value="villa">Villa</option>
+    <option value="cities">Iconic Cities</option>
+    <option value="mountain">Mountain</option>
+    <option value="winter">Winter</option>
+    <option value="beach">Beach</option>
+    <option value="forest">Forest</option>
+    <option value="sunny">Sunny</option>
+</select>
+                    </div>
+                    <button class="btn add-btn">Add</button>
+
+
+                </form>
+                <br><br> <br> <br> </body>
+    </div>
+
+    </div>

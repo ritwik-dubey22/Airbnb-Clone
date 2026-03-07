@@ -1,0 +1,207 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wandarLust</title>
+</head> -->
+<% layout ('/layouts/boilerplate') %>
+
+
+
+
+    <!-- ====  basically all ejs are connected to css file through our bolierplate -->
+
+    <!-- 
+    <h3>ALL Listing</h3> -->
+    <!-- <form method="GET" action="/listings/new">
+            <button>Create New listing </button></form> -->
+
+    <style>
+        .tax-switch {
+            display: flex;
+            align-items: center;
+            /* vertically center the switch */
+            flex: 0 0 auto;
+            /* don't stretch */
+            margin-left: 0;
+            /* optional spacing controlled by gap */
+        }
+        
+        .filter {
+            margin-top: 2rem;
+            text-align: center;
+            margin-right: 2rem;
+            opacity: 0.7;
+        }
+        
+        .filter:hover {
+            opacity: 2;
+        }
+        
+        .filter:hover {
+            font-size: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            /* icon grows */
+        }
+        
+        #filters {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .filter p {
+            font-size: 0.8rem;
+        }
+        
+        #filters {
+            display: flex;
+            flex-wrap: wrap;
+            /* small screens me wrap ho jaye */
+            align-items: center;
+            /* vertically center */
+            gap: 1rem;
+        }
+        
+        .tax-switch {
+            margin-left: auto;
+            /* push to far right */
+            display: flex;
+            align-items: center;
+            /* vertically center switch */
+            flex: 0 0 auto;
+            /* don't shrink */
+        }
+        
+        .filter {
+            text-align: center;
+            flex: 0 1 auto;
+            /* allow wrapping if needed */
+        }
+        
+        .tax-info {
+            display: none;
+        }
+        
+        .filter.icon-btn {
+            flex: 0 0 auto;
+            /*-------------CHATGPT---------------- fixed size */
+        }
+        
+        .tax-switch {
+            border: 1px solid black;
+            border-radius: 8px;
+            height: 3.5rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+    <div id="filters">
+        <!-- Filters -->
+        <div id="filters">
+
+            <!-- Trending -->
+            <a href="/listings?category=trending" class="filter text-decoration-none text-dark">
+                <div><i class="fa-sharp fa-solid fa-fire"></i></div>
+                <p class="mb-0">Trending</p>
+            </a>
+
+            <!-- Rooms -->
+            <a href="/listings?category=rooms" class="filter text-decoration-none text-dark">
+                <div><i class="fa-solid fa-bed"></i></div>
+                <p class="mb-0">Rooms</p>
+            </a>
+
+            <!-- Iconic Cities -->
+            <a href="/listings?category=cities" class="filter text-decoration-none text-dark">
+                <div><i class="fa-sharp fa-solid fa-city"></i></div>
+                <p class="mb-0">Iconic Cities</p>
+            </a>
+
+            <!-- Mountain -->
+            <a href="/listings?category=mountain" class="filter text-decoration-none text-dark">
+                <div><i class="fa-solid fa-mountain"></i></div>
+                <p class="mb-0">Mountain</p>
+            </a>
+
+            <!-- Winter -->
+            <a href="/listings?category=winter" class="filter text-decoration-none text-dark">
+                <div><i class="fa-solid fa-snowflake"></i></div>
+                <p class="mb-0">Winter</p>
+            </a>
+
+            <!-- Beach -->
+            <a href="/listings?category=beach" class="filter text-decoration-none text-dark">
+                <div><i class="fa-solid fa-glass-water"></i></div>
+                <p class="mb-0">Beach</p>
+            </a>
+
+            <!-- Forest -->
+            <a href="/listings?category=forest" class="filter text-decoration-none text-dark">
+                <div><i class="fa-solid fa-tree"></i></div>
+                <p class="mb-0">Forest</p>
+            </a>
+
+            <!-- Sunny -->
+            <a href="/listings?category=sunny" class="filter text-decoration-none text-dark">
+                <div><i class="fa-solid fa-sun"></i></div>
+                <p class="mb-0">Sunny</p>
+            </a>
+
+            <a href="/listings?category=villa" class="filter text-decoration-none text-dark">
+                <div><i class="fa-solid fa-house"></i></i>
+                </div>
+                <p class="mb-0">Villas</p>
+            </a>
+        </div>
+    </div>
+
+
+    <!-- Tax switch aligned right -->
+    <div class="tax-switch">
+        <div class="form-check form-switch form-check-reverse">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+            <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="row    row-cols-lg-3  row-cols-md-2 row-cols-sm-1 mt-4">
+        <%for(let listing of alllistings) {
+            %>
+            <a href="/listings/<%= listing._id  %>" class="listing-link">
+                <div class="card  col"><img src="<%= listing.image.url %>" class=" card-img-top " alt="listing images" style="height: 19rem;">
+                    <div class="card-img-overlay"></div>
+                    <div class=" card-body ">
+                        <p class="card-text "><b><br><%=listing.title%></b><br>&#8377;
+                            <%=listing.price ? listing.price.toLocaleString("en-IN"): "N/A"%>
+                                <i class="tax-info"> &nbsp;&nbsp;+18% GST</i>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <%
+        }
+        
+        %>
+    </div>
+
+    <script>
+        let tax_switch = document.getElementById("switchCheckDefault");
+        tax_switch.addEventListener("click", () => {
+            let taxInfo = document.getElementsByClassName("tax-info");
+            for (info of taxInfo) {
+                if (info.style.display != "inline") {
+                    info.style.display = "inline"
+                } else {
+                    info.style.display = "none";
+                }
+            }
+
+
+        })
+    </script>

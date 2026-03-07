@@ -1,0 +1,194 @@
+<% layout ('/layouts/boilerplate') %>
+
+    <body>
+        <div class="container mt-5 mb-5">
+
+            <!-- LISTING TITLE -->
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8 text-center">
+                    <h3 class="fw-bold">
+                        <%= listing_show.title %>
+                    </h3>
+                </div>
+            </div>
+
+            <!-- LISTING IMAGE & DETAILS -->
+            <div class="row justify-content-center mt-4">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="card shadow-sm mb-4">
+                        <img src="<%= listing_show.image.url %>" class="card-img-top" alt="listing image">
+                        <div class="card-body">
+                            <p class="card-text">
+                                <p>
+                                    👤 Listed by<br> <b>
+                                    <%= listing_show.owner.username %>
+                                </b></p>
+                                <p class="card-text">
+                                    <%= listing_show.description %> <br></p>
+                                <p class="card-text"><strong>Price:</strong> &#8377;
+                                    <%= listing_show.price ? listing_show.price.toLocaleString("en-IN") : "N/A" %> <br>
+                                </p>
+                                <p class="card-text"> <strong>Location:</strong>
+                                    <%= listing_show.location %> <br></p>
+                                <p class="card-text"><strong>Country:</strong>
+                                    <%= listing_show.country %>
+                                </p>
+                            </p>
+
+                            <br>
+
+                            <% if(currUser&&currUser._id.equals(listing_show.owner._id)){  %>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <a href="/listings/<%= listing_show._id %>/edit" class="btn btn-primary fw-bold">Edit</a>
+                                    <form method="POST" action="/listings/<%= listing_show._id %>?_method=DELETE" class="m-0">
+                                        <button class="btn btn-danger fw-bold">Delete</button>
+                                    </form>
+
+                                </div>
+                                <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CHAT GPT VERSION -->
+
+            <!-- REVIEW FORM -->
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="card shadow-sm p-4 mb-5">
+                        <h4 class="mb-3 text-center fw-bold">Leave a Review</h4>
+
+                        <% if(currUser) { %>
+                            <form action="/listings/<%= listing_show._id %>/reviews" method="POST" class="needs-validation" novalidate>
+
+                                <!-- Rating -->
+
+
+                                <!-- <div class="mb-3">
+                                    <label for="rating" class="form-label">Rating</label>
+                                    <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range w-100">
+                                </div> -->
+
+
+                                <fieldset class="starability-grow">
+                                    <legend>Rating:</legend>
+
+                                    <input type="radio" id="first-rate1" name="review[rating]" value="1" required />
+                                    <label for="first-rate1">1 star</label>
+
+                                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                                    <label for="first-rate2">2 stars</label>
+
+                                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                                    <label for="first-rate3">3 stars</label>
+
+                                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                                    <label for="first-rate4">4 stars</label>
+
+                                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                                    <label for="first-rate5">5 stars</label>
+                                </fieldset>
+
+
+
+                                <!-- Comment -->
+                                <div class="mb-3">
+                                    <label for="comment" class="form-label">Comment</label>
+                                    <textarea id="comment" cols="30" rows="5" class="form-control w-100" name="review[Comment]" placeholder="Write your review here..." required></textarea>
+                                    <div class="invalid-feedback">Please enter a comment for your review</div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-light hover-bg-dark-black fw-bold py-2">Submit Review</button>
+                                </div>
+                            </form>
+                            <% } else { %>
+                                <p class="text-muted text-center">
+                                    Please <a href="/login">login</a> to leave a review.
+                                </p>
+                                <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ALL REVIEWS -->
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <h4 class="mb-4 fw-bold">All Reviews</h4>
+
+                    <% if (listing_show.reviews.length === 0) { %>
+                        <p class="text-muted">No reviews yet.</p>
+                        <% } %>
+
+                            <div class="row">
+                                <% listing_show.reviews.forEach((review) => { %>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <div class="card shadow-sm p-3">
+                                            <div class="d-flex gap-3">
+
+                                                <!-- Avatar -->
+                                                <img src="https://i.pravatar.cc/100?img=<%= Math.floor(Math.random() * 70) + 1 %>" class="rounded-circle" width="60" height="60" style="object-fit: cover;">
+
+                                                <div class="flex-grow-1">
+
+                                                    <!-- Comment -->
+                                                    <p class="mb-2">
+                                                        <%= review.Comment %>
+                                                    </p>
+
+                                                    <!-- Author -->
+                                                    <p class="mb-2 text-muted small">
+                                                        👤
+                                                        <%= review.author ? review.author.username : "Unknown User" %>
+                                                    </p>
+
+                                                    <div class="d-flex justify-content-between align-items-center">
+
+                                                        <!-- Rating Stars -->
+                                                        <p class="starability-result m-0" data-rating="<%= review.rating %>">
+                                                            Rated:
+                                                            <%= review.rating %> stars
+                                                        </p>
+
+                                                        <!-- Delete Button -->
+                                                        <% if(currUser && (
+                                        currUser._id.equals(listing_show.owner._id) ||
+                                        (review.author && currUser._id.equals(review.author._id))
+                                    )) { %>
+                                                            <form method="POST" action="/listings/<%= listing_show._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                                                <button class="btn btn-sm btn-outline-danger">
+                                                🗑 Delete
+                                            </button>
+                                                            </form>
+                                                            <% } %>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                </div>
+            </div>
+
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <b><h2> Where you’ll be</h2></b>
+                    <div id="map" data-coords='<%- JSON.stringify(listing_show.geometry.coordinates) %>' data-location="<%= listing_show.location %>" class="rounded-4 shadow-sm mt-3" style="height: 400px;">
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <script src="/js/map.js"></script>
+
+
+    </body>

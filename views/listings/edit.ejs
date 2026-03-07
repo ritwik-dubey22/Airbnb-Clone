@@ -1,0 +1,117 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head> -->
+
+<!-- using the ejs-mate -->
+<% layout ('/layouts/boilerplate') %>
+
+
+
+    <body>
+
+        <div class="row  mt-5">
+            <div class="col-8  offset-2 ">
+
+                <h1>Edit your Listing</h1>
+                <br><br>
+                <!-- action me listingsrkhne se ham wapis listing wle route par aa jyenge -->
+                <form method="POST" action="/listings/<%=  Listing._id%>?_method=PUT" class="needs-validation" novalidate enctype="multipart/form-data">
+
+                    <div class="mb-3">
+
+                        <label for="title" class="form-label">Title
+                </label>
+                        <input name="listing[title]" value="<%= Listing.title %>" type="text" class="form-control" required>
+
+                        <div class="valid-feedback">Title looks good...</div>
+                    </div>
+
+                    <br> <br>
+
+                    <div class="mb-3">
+
+                        <label for="description" class="form-label">Enter description
+                </label>
+                        <textarea name="listing[description]" value="<%= Listing.description %>" type=" text " rows="7" cols="30" class="form-control" required> 
+                    <%= Listing.description %> </textarea>
+
+                        <div class="invalid-feedback">write a short description</div>
+
+                    </div><br> <br>
+                    <div class="mb-3">
+                        <p class="fw-bold">Original Listing</p>
+                        <img src="<%= originalImageUrl%>" class="img-fluid rounded-4 shadow" style="max-width:350px;">
+                    </div>
+
+
+
+                    <div class="mb-3">
+
+                        <label for="image" class="form-label">Upload New images
+                </label>
+                        <input name="listing[image]" type="file" class="form-control">
+                    </div> <br> <br>
+
+                    <div class="row">
+                        <div class="mb-3  col-md-3">
+                            <label for="price" class="form-label">Enter price
+                </label> &#8377;
+                            <input name="listing[price]" value="<%= Listing.price %>" class="form-control" required>
+                            <div class="invalid-feedback">enter a valid price </div>
+                        </div><br> <br>
+
+
+                        <div class="mb-3   col-md-8">
+
+                            <label for="country" class="form-label">enter country
+                </label>
+                            <input name="listing[country]" value="<%= Listing.country %>" type="text" class="form-control" required>
+                            <div class="invalid-feedback">enter a valid country </div>
+                        </div>
+                    </div><br> <br>
+                    <div class="mb-3">
+
+                        <label for="location" class="form-label">Enter the location/address
+                </label>
+                        <input name="listing[location]" value="<%= Listing.location %>" type="text" class="form-control" required><br>
+
+                        <div class="invalid-feedback">enter a valid location </div>
+                    </div><br><br>
+
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select name="listing[category]" class="form-control" required>
+    <option value="">Select Category</option>
+    <option value="trending" <%= Listing.category === 'trending' ? 'selected' : '' %>>Trending</option>
+    <option value="rooms" <%= Listing.category === 'rooms' ? 'selected' : '' %>>Rooms</option>
+    <option value="villa" <%= Listing.category === 'villa' ? 'selected' : '' %>>Villa</option>
+    <option value="cities" <%= Listing.category === 'cities' ? 'selected' : '' %>>Iconic Cities</option>
+    <option value="mountain" <%= Listing.category === 'mountain' ? 'selected' : '' %>>Mountain</option>
+    <option value="winter" <%= Listing.category === 'winter' ? 'selected' : '' %>>Winter</option>
+    <option value="beach" <%= Listing.category === 'beach' ? 'selected' : '' %>>Beach</option>
+    <option value="forest" <%= Listing.category === 'forest' ? 'selected' : '' %>>Forest</option>
+    <option value="sunny" <%= Listing.category === 'sunny' ? 'selected' : '' %>>Sunny</option>
+</select>
+                    </div>
+
+                    <button class="btn edit-btn">Edit</button>
+
+
+
+
+
+
+
+
+                </form>
+            </div>
+        </div>
+
+    </body>
+
+    </html>
