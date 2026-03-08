@@ -1,0 +1,108 @@
+<!-- ## navbar---code for the -->
+<style>
+    .btn-search {
+        background-color: #fe424d;
+        color: aliceblue;
+        border-radius: 19px;
+        padding: 0 1rem 0 1rem;
+    }
+    
+    .btn-search:hover {
+        background-color: #fe424d;
+        color: aliceblue;
+    }
+    
+    .btn-search i {
+        display: inline-block;
+        /* allows margin to work properly */
+        margin-right: 1rem;
+        /* 3rem is usually too much */
+    }
+    
+    .search-input {
+        border-radius: 19px;
+        padding: 0.5rem 3rem 0.5rem 3;
+    }
+    /* Search button */
+    
+    .btn-danger {
+        background-color: #ff385c;
+        border-color: #ff385c;
+    }
+    
+    .btn-danger:hover {
+        background-color: #ff385c;
+        border-color: #ff385c;
+        opacity: 0.9;
+        transition: 0.3s;
+    }
+    /* Rounded input field */
+    
+    .form-control {
+        border-radius: 50px !important;
+    }
+    /* Focus effect */
+    
+    .input-group .form-control:focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 56, 92, 0.25);
+        border-color: #ff385c;
+    }
+</style>
+<nav class="navbar navbar-expand-md bg-body-light  border-bottom   sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/listings "><i class="fa-brands fa-airbnb fa-2x text-danger "></i>
+ </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <!-- <a class="nav-link " href="/">Home</a> -->
+                <a class="nav-link" href="/listings">Explore</a>
+
+
+            </div>
+            <div class="container my-5 d-flex justify-content-center">
+
+                <form class="d-flex" role="search" method="GET" action="/listings" style="width:600px; max-width:90%;">
+
+                    <div class="input-group shadow rounded-pill overflow-hidden bg-white">
+
+                        <!-- Search Input -->
+                        <input type="search" class="form-control border-0 ps-4 py-3" placeholder="Search destinations, cities or listings" name="search" value="<%= req.query.search || '' %>" required>
+
+                        <!-- Search Button -->
+                        <button class="btn btn-danger px-4 d-flex align-items-center" type="submit">
+                <i class="fa-solid fa-magnifying-glass me-2"></i>
+                Search
+            </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+            <!-- <div class="container-fluid d-flex justify-content-center">
+                <form class="d-flex w-50" role="search">
+                    <input class="form-control me-2   search-input" type="search" placeholder="Search destinations" aria-label="Search">
+                    <button class="btn btn-search" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i> Search</button>
+                </form>
+            </div> -->
+
+
+
+
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="/listings/new">Airbnb your home</a>
+                    <% if(!currUser){ %>
+                        <a class="nav-link" href="/signup"> <b>Sign Up</b> 📲</a>
+                        <a class="nav-link" href="/login"><b>Log-in</b> 🔓</a>
+                        <% } else { %>
+                            <a class="nav-link" href="/logout"><b>Log-Out</b> 🔒</a>
+                            <% } %>
+                </div>
+            </div>
+
+</nav>

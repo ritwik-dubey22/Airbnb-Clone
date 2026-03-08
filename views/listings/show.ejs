@@ -17,36 +17,36 @@
                 <div class="col-12 col-md-10 col-lg-8">
                     <div class="card shadow-sm mb-4">
                         <img src="<%= listing_show.image.url %>" class="card-img-top" alt="listing image">
-                        <div class="card-body">
-                            <p class="card-text">
-                                <p>
-                                    👤 Listed by<br> <b>
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <p>
+                                                    👤 Listed by<br> <b>
                                     <%= listing_show.owner.username %>
                                 </b></p>
-                                <p class="card-text">
-                                    <%= listing_show.description %> <br></p>
-                                <p class="card-text"><strong>Price:</strong> &#8377;
-                                    <%= listing_show.price ? listing_show.price.toLocaleString("en-IN") : "N/A" %> <br>
-                                </p>
-                                <p class="card-text"> <strong>Location:</strong>
-                                    <%= listing_show.location %> <br></p>
-                                <p class="card-text"><strong>Country:</strong>
-                                    <%= listing_show.country %>
-                                </p>
-                            </p>
+                                                <p class="card-text">
+                                                    <%= listing_show.description %> <br></p>
+                                                <p class="card-text"><strong>Price:</strong> &#8377;
+                                                    <%= listing_show.price ? listing_show.price.toLocaleString("en-IN") : "N/A" %> <br>
+                                                </p>
+                                                <p class="card-text"> <strong>Location:</strong>
+                                                    <%= listing_show.location %> <br></p>
+                                                <p class="card-text"><strong>Country:</strong>
+                                                    <%= listing_show.country %>
+                                                </p>
+                                            </p>
 
-                            <br>
+                                            <br>
 
-                            <% if(currUser&&currUser._id.equals(listing_show.owner._id)){  %>
-                                <div class="d-flex justify-content-between mt-3">
-                                    <a href="/listings/<%= listing_show._id %>/edit" class="btn btn-primary fw-bold">Edit</a>
-                                    <form method="POST" action="/listings/<%= listing_show._id %>?_method=DELETE" class="m-0">
-                                        <button class="btn btn-danger fw-bold">Delete</button>
-                                    </form>
+                                            <% if(currUser&&currUser._id.equals(listing_show.owner._id)){  %>
+                                                <div class="d-flex justify-content-between mt-3">
+                                                    <a href="/listings/<%= listing_show._id %>/edit" class="btn btn-primary fw-bold">Edit</a>
+                                                    <form method="POST" action="/listings/<%= listing_show._id %>?_method=DELETE" class="m-0">
+                                                        <button class="btn btn-danger fw-bold">Delete</button>
+                                                    </form>
 
-                                </div>
-                                <%}%>
-                        </div>
+                                                </div>
+                                                <%}%>
+                                        </div>
                     </div>
                 </div>
             </div>
