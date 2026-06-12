@@ -5,7 +5,7 @@ const Express_Error = require("./utility/ExpressError.js")
 
 // ## joi package for validation of schema
 // of the listings and review forms
-const { listingSchema, reviewSchema } = require("./schema.js");
+const { listingSchema, reviewSchema, bookingSchema } = require("./schema.js");
 
 
 ///1. # authentication before create new listings  
@@ -102,9 +102,15 @@ module.exports.validationreview = (req, res, next) => {
     } else {
         next();
     }
+}
 
-
-
+module.exports.validationBooking = (req, res, next) => {
+    let { error } = bookingSchema.validate(req.body);
+    if (error) {
+        let errmsg = error.details.map((n) => n.message).join(",");
+        throw new Express_Error(400, errmsg);
+    }
+    next();
 }
 
 
@@ -122,7 +128,7 @@ module.exports.isReview = async(req, res, next) => {
     // check for the athurisation 
     // user is that jisne ki listings ko banaya h
     const checklisting = await reviews.findById(reviewId);
-    if (!reviews.author._id.equals(res.locals.currUser._id)) {
+    if (!checklisting.author._id.equals(res.locals.currUser._id)) {
         req.flash("error", "Access denied! Insufficient permissions 🔒")
 
         return res.redirect(`/listings/${id}`)

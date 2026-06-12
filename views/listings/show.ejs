@@ -16,37 +16,118 @@
             <div class="row justify-content-center mt-4">
                 <div class="col-12 col-md-10 col-lg-8">
                     <div class="card shadow-sm mb-4">
-                        <img src="<%= listing_show.image.url %>" class="card-img-top" alt="listing image">
-                                        <div class="card-body">
-                                            <p class="card-text">
-                                                <p>
-                                                    👤 Listed by<br> <b>
+                        <!-- Image Carousel -->
+                        <% const imagesToShow = (listing_show.images && listing_show.images.length > 0) ? listing_show.images : (listing_show.image ? [listing_show.image] : []); %>
+
+                            <% if (imagesToShow.length > 0) { %>
+                                <div id="listingCarousel" class="carousel slide" data-bs-ride="carousel">
+                                    <% if (imagesToShow.length > 1) { %>
+                                        <div class="carousel-indicators">
+                                            <% imagesToShow.forEach((img, index) => { %>
+                                                <button type="button" data-bs-target="#listingCarousel" data-bs-slide-to="<%= index %>" class="<%= index === 0 ? 'active' : '' %>" aria-current="<%= index === 0 ? 'true' : 'false' %>" aria-label="Slide <%= index + 1 %>"></button>
+                                                <% }) %>
+                                        </div>
+                                        <% } %>
+                                            <div class="carousel-inner">
+                                                <% imagesToShow.forEach((img, index) => { %>
+                                                    <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                                                        <img src="<%= img.url %>" class="d-block w-100" alt="listing image <%= index + 1 %>" style="height: 400px; object-fit: cover;">
+                                                    </div>
+                                                    <% }) %>
+                                            </div>
+                                            <% if (imagesToShow.length > 1) { %>
+                                                <button class="carousel-control-prev" type="button" data-bs-target="#listingCarousel" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                                <button class="carousel-control-next" type="button" data-bs-target="#listingCarousel" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                                <% } %>
+                                </div>
+                                <% } %>
+
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            <p>
+                                                👤 Listed by<br> <b>
                                     <%= listing_show.owner.username %>
                                 </b></p>
-                                                <p class="card-text">
-                                                    <%= listing_show.description %> <br></p>
-                                                <p class="card-text"><strong>Price:</strong> &#8377;
-                                                    <%= listing_show.price ? listing_show.price.toLocaleString("en-IN") : "N/A" %> <br>
-                                                </p>
-                                                <p class="card-text"> <strong>Location:</strong>
-                                                    <%= listing_show.location %> <br></p>
-                                                <p class="card-text"><strong>Country:</strong>
-                                                    <%= listing_show.country %>
-                                                </p>
+                                            <p class="card-text">
+                                                <%= listing_show.description %> <br></p>
+                                            <p class="card-text"><strong>Price:</strong> &#8377;
+                                                <%= listing_show.price ? listing_show.price.toLocaleString("en-IN") : "N/A" %> <br>
                                             </p>
+                                            <p class="card-text"> <strong>Location:</strong>
+                                                <%= listing_show.location %> <br></p>
+                                            <p class="card-text"><strong>Country:</strong>
+                                                <%= listing_show.country %>
+                                            </p>
+                                        </p>
 
-                                            <br>
+                                        <br>
 
-                                            <% if(currUser&&currUser._id.equals(listing_show.owner._id)){  %>
-                                                <div class="d-flex justify-content-between mt-3">
-                                                    <a href="/listings/<%= listing_show._id %>/edit" class="btn btn-primary fw-bold">Edit</a>
-                                                    <form method="POST" action="/listings/<%= listing_show._id %>?_method=DELETE" class="m-0">
-                                                        <button class="btn btn-danger fw-bold">Delete</button>
-                                                    </form>
+                                        <% if(currUser&&currUser._id.equals(listing_show.owner._id)){  %>
+                                            <div class="d-flex justify-content-between mt-3">
+                                                <a href="/listings/<%= listing_show._id %>/edit" class="btn btn-primary fw-bold">Edit</a>
+                                                <form method="POST" action="/listings/<%= listing_show._id %>?_method=DELETE" class="m-0">
+                                                    <button class="btn btn-danger fw-bold">Delete</button>
+                                                </form>
 
-                                                </div>
-                                                <%}%>
-                                        </div>
+                                            </div>
+                                            <%}%>
+                                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOOKING SECTION -->
+            <div class="row justify-content-center mt-4">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <div class="card shadow-sm p-4 mb-5">
+                        <h4 class="mb-3">Reserve this stay</h4>
+
+                        <% if (currUser) { %>
+                            <form method="POST" action="/listings/<%= listing_show._id %>/bookings" class="needs-validation" novalidate>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="bookingCheckIn" class="form-label">Check-in</label>
+                                        <input id="bookingCheckIn" name="booking[checkIn]" type="date" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="bookingCheckOut" class="form-label">Check-out</label>
+                                        <input id="bookingCheckOut" name="booking[checkOut]" type="date" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <p><strong>Price per night:</strong> ₹ <span id="listingPrice" data-price="<%= listing_show.price || 0 %>"><%= listing_show.price ? listing_show.price.toLocaleString('en-IN') : '0' %></span></p>
+                                    <p><strong>Nights:</strong> <span id="bookingNights">0</span></p>
+                                    <p><strong>Total price:</strong> ₹ <span id="bookingTotalPrice">0</span></p>
+                                    <p id="bookingMessage" class="text-danger"></p>
+                                </div>
+                                <input id="bookingTotal" type="hidden" value="">
+                                <button type="submit" class="btn btn-danger fw-bold">Book now</button>
+                            </form>
+                            <% } else { %>
+                                <p class="text-muted">Please <a href="/login">login</a> to reserve this listing.</p>
+                                <% } %>
+
+                                    <div class="mt-4">
+                                        <h5>Unavailable dates</h5>
+                                        <% const bookingRanges = Array.isArray(listing_show.bookings) ? listing_show.bookings : []; %>
+                                            <% if (bookingRanges.length === 0) { %>
+                                                <p class="text-muted">No current bookings. Choose your dates above.</p>
+                                                <% } else { %>
+                                                    <ul class="mb-0">
+                                                        <% bookingRanges.forEach((booking) => { %>
+                                                            <li><strong><%= booking.checkIn.toLocaleDateString() %></strong> — <strong><%= booking.checkOut.toLocaleDateString() %></strong></li>
+                                                            <% }) %>
+                                                    </ul>
+                                                    <% } %>
+                                    </div>
+
+                                    <pre id="unavailableRanges" class="d-none"><%= JSON.stringify(bookingRanges.map((booking) => ({ start: booking.checkIn, end: booking.checkOut }))) %></pre>
                     </div>
                 </div>
             </div>
@@ -188,6 +269,7 @@
         </div>
 
 
+        <script src="/js/booking.js"></script>
         <script src="/js/map.js"></script>
 
 

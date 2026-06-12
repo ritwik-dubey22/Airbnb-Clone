@@ -41,3 +41,11 @@ module.exports.reviewSchema = joi.object({
 
 
 });
+
+//#3. joi schema for bookings
+module.exports.bookingSchema = joi.object({
+    booking: joi.object({
+        checkIn: joi.date().required(),
+        checkOut: joi.date().required(),
+    }).unknown(true).required()
+}).unknown(true);

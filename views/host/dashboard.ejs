@@ -1,0 +1,109 @@
+<% layout ('/layouts/boilerplate') %>
+
+    <body>
+        <div class="container mt-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-11">
+                    <div class="mb-4">
+                        <h2 class="fw-bold">Host Dashboard</h2>
+                        <p class="text-muted">Manage your listings and bookings</p>
+                    </div>
+
+                    <!-- Stats Section -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body text-center">
+                                    <h3 class="fw-bold text-primary">
+                                        <%= listingCount %>
+                                    </h3>
+                                    <p class="text-muted">Active Listings</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body text-center">
+                                    <h3 class="fw-bold text-success">
+                                        <%= bookings.length %>
+                                    </h3>
+                                    <p class="text-muted">Total Bookings</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body text-center">
+                                    <h3 class="fw-bold text-info">
+                                        ₹
+                                        <%= bookings.reduce((sum, b) => sum + (b.totalPrice || 0), 0).toLocaleString('en-IN') %>
+                                    </h3>
+                                    <p class="text-muted">Total Earnings</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bookings Section -->
+                    <h4 class="fw-bold mb-4">Upcoming & Recent Bookings</h4>
+
+                    <% if (bookings && bookings.length === 0) { %>
+                        <div class="alert alert-info">
+                            You don't have any bookings yet. <a href="/listings/new">Create a listing</a> to start accepting bookings.
+                        </div>
+                        <% } else { %>
+                            <div class="table-responsive">
+                                <table class="table table-hover shadow-sm">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Property</th>
+                                            <th>Guest</th>
+                                            <th>Check-in</th>
+                                            <th>Check-out</th>
+                                            <th>Nights</th>
+                                            <th>Total Price</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% bookings.forEach((booking) => { %>
+                                            <tr>
+                                                <td>
+                                                    <strong>
+                                                    <a href="/listings/<%= booking.listing._id %>" target="_blank">
+                                                        <%= booking.listing.title %>
+                                                    </a>
+                                                </strong>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-light text-dark">
+                                                    <%= booking.user.username %>
+                                                </span>
+                                                </td>
+                                                <td>
+                                                    <%= booking.checkIn.toLocaleDateString() %>
+                                                </td>
+                                                <td>
+                                                    <%= booking.checkOut.toLocaleDateString() %>
+                                                </td>
+                                                <td>
+                                                    <%= booking.nights %>
+                                                </td>
+                                                <td class="fw-bold text-success">₹
+                                                    <%= booking.totalPrice.toLocaleString('en-IN') %>
+                                                </td>
+                                                <td>
+                                                    <a href="mailto:<%= booking.user.email %>" class="btn btn-sm btn-outline-primary">
+                                                        <i class="fa fa-envelope"></i> Contact
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+    </body>

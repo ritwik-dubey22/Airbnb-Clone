@@ -42,10 +42,14 @@
                     <br> <br>
 
 
-                    <div class="mb-3"> <label for="image" class="form-label">Upload listings image
+                    <div class="mb-3">
+
+                        <label for="image" class="form-label">Upload listing images
                 </label>
 
-                        <input required name="listing[image]" placeholder="enter image url" type="file" class="form-control" required></div>
+                        <input id="listingImages" required name="images" placeholder="enter images" type="file" class="form-control" multiple accept="image/*">
+                        <div id="imageCount" class="form-text text-muted">No images selected.</div>
+                    </div>
 
 
                     <br> <br>
@@ -94,6 +98,16 @@
 
 
                 </form>
+                <script>
+                    const listingImagesInput = document.getElementById('listingImages');
+                    const imageCount = document.getElementById('imageCount');
+                    if (listingImagesInput) {
+                        listingImagesInput.addEventListener('change', () => {
+                            const count = listingImagesInput.files.length;
+                            imageCount.textContent = count > 0 ? `${count} image${count === 1 ? '' : 's'} selected.` : 'No images selected.';
+                        });
+                    }
+                </script>
                 <br><br> <br> <br> </body>
     </div>
 

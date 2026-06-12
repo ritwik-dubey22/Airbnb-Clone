@@ -1,9 +1,11 @@
 const express = require("express");
+const methodOverride = require("method-override");
 
 const listing = require("../models/listing.js")
     // listing  ko to dusre folder se la rhe h  === schema(mongoDB) for the listiong
 
 const router = express.Router();
+router.use(methodOverride("_method"));
 // require the controller for routes callbacks === MCV
 const user_controller = require("../controller/user.js")
 
@@ -12,7 +14,7 @@ const User = require("../models/user.js");
 const WrapAsync = require("../utility/WrapAsync.js");
 
 //  redirect the user on same page 
-const { saveRedirecturl } = require("../middleware.js");
+const { saveRedirecturl, isLoggedin } = require("../middleware.js");
 
 
 const passport = require("passport");
@@ -54,13 +56,10 @@ router.route("/login")
         failureFlash: true
     }), user_controller.login)
 
+router.get("/bookings", isLoggedin, WrapAsync(user_controller.bookingHistory));
+router.delete("/bookings/:bookingId", isLoggedin, WrapAsync(user_controller.cancelBooking));
+router.get("/host/dashboard", isLoggedin, WrapAsync(user_controller.hostDashboard));
 router.get("/logout", user_controller.logout)
-module.exports = router;
-
-// to render the sign up form 
-// router.get("/signup", user_controller.reneder_signup_form)
-
-
 
 module.exports = router;
 

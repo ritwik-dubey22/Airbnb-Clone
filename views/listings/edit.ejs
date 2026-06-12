@@ -52,9 +52,10 @@
 
                     <div class="mb-3">
 
-                        <label for="image" class="form-label">Upload New images
+                        <label for="image" class="form-label">Upload new listing images
                 </label>
-                        <input name="listing[image]" type="file" class="form-control">
+                        <input id="listingImages" name="images" type="file" class="form-control" multiple accept="image/*">
+                        <div id="imageCount" class="form-text text-muted">No images selected.</div>
                     </div> <br> <br>
 
                     <div class="row">
@@ -111,6 +112,17 @@
                 </form>
             </div>
         </div>
+
+        <script>
+            const listingImagesInput = document.getElementById('listingImages');
+            const imageCount = document.getElementById('imageCount');
+            if (listingImagesInput) {
+                listingImagesInput.addEventListener('change', () => {
+                    const count = listingImagesInput.files.length;
+                    imageCount.textContent = count > 0 ? `${count} image${count === 1 ? '' : 's'} selected.` : 'No images selected.';
+                });
+            }
+        </script>
 
     </body>
 

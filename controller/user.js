@@ -1,5 +1,7 @@
 // user model schema 
 const User = require("../models/user.js")
+const Booking = require("../models/booking.js")
+const Listing = require("../models/listing.js")
 
 
 
@@ -44,6 +46,41 @@ module.exports.signup = async(req, res) => {
         res.redirect("/signup")
     }
 }
+
+module.exports.bookingHistory = async(req, res) => {
+    const bookings = await Booking.find({ user: req.user._id }).populate("listing");
+    res.render("bookings/index.ejs", { bookings });
+};
+
+module.exports.cancelBooking = async(req, res) => {
+    const { bookingId } = req.params;
+    const booking = await Booking.findById(bookingId);
+    if (!booking) {
+        throw new Express_Error(404, "Booking not found.");
+    }
+    if (!booking.user.equals(req.user._id)) {
+        req.flash("error", "You are not authorized to cancel this booking.");
+        return res.redirect("/bookings");
+    }
+    await Listing.findByIdAndUpdate(booking.listing, { $pull: { bookings: booking._id } });
+    await Booking.findByIdAndDelete(bookingId);
+    req.flash("success", "Booking canceled successfully.");
+    res.redirect("/bookings");
+};
+
+module.exports.hostDashboard = async(req, res) => {
+    // Get all listings owned by the current user
+    const hostListings = await Listing.find({ owner: req.user._id });
+    const listingIds = hostListings.map((listing) => listing._id);
+
+    // Get all bookings for the host's listings
+    const bookings = await Booking.find({ listing: { $in: listingIds } })
+        .populate("listing")
+        .populate("user", "username email")
+        .sort({ checkIn: -1 });
+
+    res.render("host/dashboard.ejs", { bookings, listingCount: hostListings.length });
+};
 
 
 //login form

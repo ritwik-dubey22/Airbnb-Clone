@@ -108,6 +108,11 @@
             <!-- RIGHT NAV -->
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
+                    <button class="btn nav-link" id="darkModeToggle" style="border: none; background: none; cursor: pointer; padding: 0.5rem 1rem;">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/listings/new">Airbnb your home</a>
                 </li>
 
@@ -119,6 +124,12 @@
                         <a class="nav-link" href="/login"><b>Log-in</b> 🔓</a>
                     </li>
                     <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/bookings"><b>My Bookings</b> 📖</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/host/dashboard"><b>Host Dashboard</b> 📊</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/logout"><b>Log-Out</b> 🔒</a>
                         </li>

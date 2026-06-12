@@ -54,9 +54,10 @@ const listings_Router = require("./routes/listing.js");
 
 
 
-// linking the listings route in the  route FOLder
+// linking the review route in the  route folder
 //# 1.  for || route ||
 const reviews_Router = require("./routes/review.js");
+const bookings_Router = require("./routes/bookings.js");
 
 
 
@@ -253,6 +254,7 @@ app.use("/listings", listings_Router)
 
 /// # 2.for  our  all review routes     ||||  which is another file route ===  review.js
 app.use("/listings/:id/reviews", reviews_Router)
+app.use("/listings/:id/bookings", bookings_Router)
 
 
 
@@ -325,6 +327,7 @@ app.use((err, req, res, next) => {
 
 
 
-app.listen(3000, () => {
-    console.log("server is listenig on the port")
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`server is listening on port ${port}`)
 })

@@ -55,8 +55,8 @@ router.route("/")
 
 // //#3. Create === show wle route se form se data aa ra ab usko database me update krna pdega
 
-.post(isLoggedin, upload.single('listing[image]'), WrapAsync(listingscontroller.create_new_listings))
-    /// image url uploaded from here   this middlewarte of 
+.post(isLoggedin, upload.array('images', 10), WrapAsync(listingscontroller.create_new_listings))
+    /// images url uploaded from here   this middlewarte of 
 
 
 
@@ -81,23 +81,14 @@ router.get("/:id/edit", isLoggedin, isOwner,
 
 router.route("/:id")
     //#2.   show route
-    .get(WrapAsync(listingscontroller.showing_all_listings)
-
-    )
-
-
-
-
-
-///#5 .edit route ===  update route    froms    req convereted into the put req
-.put(isLoggedin,
-    isOwner,
-    upload.single('listing[image]'),
-    WrapAsync(listingscontroller.update_listings_form))
-
-
-//#6  DELETE ROUTE 
-.delete(isLoggedin, isOwner, WrapAsync(listingscontroller.delete))
+    .get(WrapAsync(listingscontroller.showing_all_listings))
+    ///#5 .edit route ===  update route    froms    req convereted into the put req
+    .put(isLoggedin,
+        isOwner,
+        upload.array('images', 10),
+        WrapAsync(listingscontroller.update_listings_form))
+    //#6  DELETE ROUTE 
+    .delete(isLoggedin, isOwner, WrapAsync(listingscontroller.delete))
 
 
 
