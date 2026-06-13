@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const app = express();
 const mongoose = require("mongoose");
 const dns = require("dns");
@@ -17,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 /// cloud setup
 //to secure the credentionals
-require("dotenv").config();
+
 // if (process.env.NODE_ENV != "production") {
 //     require("dotenv").config();
 // }
