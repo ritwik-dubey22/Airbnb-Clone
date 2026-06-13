@@ -332,8 +332,7 @@ module.exports.showing_all_listings = async(req, res) => {
     }
 
     listing_show.bookings = Array.isArray(listing_show.bookings) ?
-        listing_show.bookings :
-        [];
+        listing_show.bookings : [];
 
     res.render("listings/show.ejs", { listing_show });
 };
@@ -404,7 +403,7 @@ module.exports.edit_listings = async(req, res) => {
         return res.redirect("/listings");
     }
 
-    let originalImageUrl = listing.image ? .url || "";
+    let originalImageUrl = listing.image ? listing.image.url || "" : "";
     if (originalImageUrl) {
         originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
     }
