@@ -292,7 +292,7 @@ app.all("*", (req, res, next) => {
 //# Error handling middleware 
 // handling the input data of form // validation in form;;;
 
-
+console.log(process.env.SECRET);
 app.use((err, req, res, next) => {
 
     let { statusCode = 500, message = "Something Went Wrong.." } = err;
